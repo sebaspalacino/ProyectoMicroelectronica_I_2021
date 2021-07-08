@@ -3,17 +3,17 @@ module micro_hash(
 	//input [95:0] entry_block,
 	//input [31:0] entry_nonce,
 	//input [127:0] entry,
-	input  block [7:0] [15:0],
+	input [7:0] [15:0] block ,
 	input [7:0] target,
 	//output reg [7:0] H0_out, H1_out, H2_out);
-	output reg  H_out [7:0] [2:0]);
+	output reg [7:0] [2:0] H_out );
 	
 	//reg [7:0] e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15;
 	reg [7:0] H0,H1,H2;
-	reg [7:0] H_hold [2:0];
+	reg [7:0] [2:0] H_hold ;
 	reg [7:0] a, b, c;
 	reg [7:0] k,x;
-	reg [7:0] W [31:0];
+	reg [7:0] [31:0] W ;
 	reg [7:0] i, t; //Usar contadores
 	reg j;
 always@(posedge clk) begin
@@ -44,9 +44,9 @@ always@(posedge clk) begin //Cambiar asignaciones
 		c<=0;
 		k<=0;
 		x<=0;
-		H0<=0;
-		H1<=0;
-		H2<=0;
+		H0 <= 8'h01;
+		H1 <= 8'h89;
+		H2 <= 8'hfe;	
 		W <=0;
 		i<=0;
 		j<=0;
@@ -78,9 +78,7 @@ always@(posedge clk) begin //Cambiar asignaciones
 		end
 		i <= i+1;//Actualizamos contador
 	//Inicializamos 3 variables
-		H0 <= 8'h01;
-		H1 <= 8'h89;
-		H2 <= 8'hfe;	
+		
 	//Iteramos 32 veces
 		a <= H0;
 		b <= H1;

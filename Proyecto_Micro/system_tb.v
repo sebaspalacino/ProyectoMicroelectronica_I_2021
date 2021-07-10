@@ -1,5 +1,6 @@
 `timescale 	1s	/ 100ps
-`include "concatenador_in.v"
+//`include "concatenador_in.v"
+`include "concatenador_verifier.v"
 `include "micro_hash.v"
 `include "system.v"
 
@@ -23,8 +24,16 @@ system	system(.clk	(clk),
 		.data_out_cond (w_data_out_cond));
 
 
-
+/*
 concatenador_in concatenador(.clk	(clk),
+			       .reset	(reset),
+			       .selector (selector),
+			       .entry_12 (w_data_entry_12),
+			       .nonce (w_data_nonce),
+			       .block_out (w_block));
+			       */
+
+concatenador_verifier concatenador(.clk	(clk),
 			       .reset	(reset),
 			       .selector (selector),
 			       .entry_12 (w_data_entry_12),

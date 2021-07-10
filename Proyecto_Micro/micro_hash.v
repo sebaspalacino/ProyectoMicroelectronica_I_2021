@@ -1,21 +1,25 @@
+// Code your design here
 module micro_hash(
 	input clk, reset,
 	//input [95:0] entry_block,
 	//input [31:0] entry_nonce,
 	//input [127:0] entry,
-	input [7:0] [15:0] block ,
+  //OSCAR: primero va el index [15:0] luego el tamanno de un byte 7:0
+    input [15:0] [7:0] block,
 	input [7:0] target,
+  	output reg hash_done,
 	//output reg [7:0] H0_out, H1_out, H2_out);
-	output reg [7:0] [2:0] H_out );
+    output reg [2:0] [7:0] H_out );
 	
 	//reg [7:0] e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15;
 	reg [7:0] H0,H1,H2;
 	reg [7:0] [2:0] H_hold ;
 	reg [7:0] a, b, c;
 	reg [7:0] k,x;
-	reg [7:0] [31:0] W ;
+        reg [31:0] [7:0] W ;
 	reg [7:0] i, t; //Usar contadores
 	reg j;
+  
 always@(posedge clk) begin
 	if(~reset) begin
 		H_out <= 0;
@@ -44,6 +48,7 @@ always@(posedge clk) begin //Cambiar asignaciones
 		c<=0;
 		k<=0;
 		x<=0;
+        //OSCAR: estos valores se inicializan una unica vez
 		H0 <= 8'h01;
 		H1 <= 8'h89;
 		H2 <= 8'hfe;	
@@ -51,6 +56,7 @@ always@(posedge clk) begin //Cambiar asignaciones
 		i<=0;
 		j<=0;
 		t<=0;
+        hash_done <= 0;
 	end else begin
 	//Inicializamos 32 variables W 
 	/*
@@ -75,37 +81,41 @@ always@(posedge clk) begin //Cambiar asignaciones
 		end
 		
 		else if(i>31) begin
-			i<=0;
 			j<=1; //Signal para decirnos que la iteracion se completo
 		end
 		//i <= i+1;//Actualizamos contador
 	//Inicializamos 3 variables
 		
 	//Iteramos 32 veces
-		a <= H0;
-		b <= H1;
-		c <= H2;
 		if(j==0) begin
-			k <=0;
-			x <=0;
-			t <=0;
-		end else begin
-			if(0<=t<=16)begin
-				k <= 8'h99;
-				x <= a^b;
+			k =0;
+			x =0;
+			t =0;
+            		a = H0;
+			b = H1;
+			c = H2;
+        end 
+      else if (~ hash_done) begin
+        
+			if(t<=16)begin
+				k = 8'h99;
+				x = a^b;
 			end 
-			else if(17<=t<=31)begin
-				k <= 8'ha1;
-				x <= a | b;
+			else if(t<=31)begin
+				k = 8'ha1;
+				x = a | b;
 			end
-			else if(t>31) begin
-				t<=0;
+			else begin
+				H0 = H0 + a;
+				H1 = H1 + b;
+				H2 = H2 + c;
+              	hash_done = 1;
 			end
 			
-			a <= b^c; //Dentro de la iteracion, pero afuera del condicional de j
-			b <= c << 4;
-			c <= x+k+W[t];
-			t <=t+1;
+			a = b^c; //Dentro de la iteracion, pero afuera del condicional de j
+			b = c << 4;
+			c = x+k+W[t];
+			t = t+1;
 		end
 		
 		/*
@@ -119,10 +129,6 @@ always@(posedge clk) begin //Cambiar asignaciones
 			end
 			
 		end	*/
-		H0 <= H0 + a;
-		H1 <= H1 + b;
-		H2 <= H2 + c;
-		
 	end
 end
 

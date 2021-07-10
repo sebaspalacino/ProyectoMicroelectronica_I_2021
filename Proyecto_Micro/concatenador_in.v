@@ -1,14 +1,14 @@
 module concatenador_in(
 	input clk, reset,
 	input selector,
-	input [7:0] [11:0] entry_12 ,
-	input [7:0] [3:0] nonce ,
-	output reg [7:0] [15:0] block_out);
+	input [11:0] [7:0] entry_12 ,
+	input [3:0] [7:0] nonce ,
+	output reg [15:0] [7:0]  block_out);
 	
 	reg [7:0] i,j,k,s,t;
 	
-	reg [7:0] [11:0] hold_entry_12 ;
-	reg [7:0] [3:0] hold_nonce ;
+	reg [11:0] [7:0] hold_entry_12 ;
+	reg [3:0] [7:0] hold_nonce ;
 	
 always @(posedge clk) begin
 	if(~reset)begin
@@ -16,7 +16,8 @@ always @(posedge clk) begin
 			block_out <=0;		
 	end else begin
 	//Con el reset en 1, agarramos los valores de los registros de hold para concatenarlos y pasarselos a la salida
-		block_out <= {hold_entry_12, hold_nonce};
+		block_out <= {hold_nonce, hold_entry_12};
+		//block_out <= { hold_entry_12, hold_nonce};
 	end
 end
 

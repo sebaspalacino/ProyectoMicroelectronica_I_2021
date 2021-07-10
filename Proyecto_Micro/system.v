@@ -1,9 +1,10 @@
 module system(
 	output reg clk, reset, selector,
-	output reg [7:0] [11:0] data_entry_12  , 
-	output reg [7:0]  [3:0] data_nonce ,
+	output reg [11:0]  [7:0] data_entry_12  , 
+	output reg [3:0] [7:0]  data_nonce ,
 	output reg [7:0] data_target,
-	input  [7:0] [2:0] data_out_cond); //Poner parentesis juntos atras
+	input hash_done,
+	input  [2:0] [7:0] data_out_cond); //Poner parentesis juntos atras
 
 
 initial begin
@@ -41,8 +42,10 @@ initial begin
 		reset <= 1'b1;
 		@(posedge clk);
 		selector <= 1'b1;
-		data_entry_12   <= {8'h39, 8'h7d, 8'h9f, 8'h2f, 8'h40, 8'hca, 8'h9e, 8'h6c, 8'h6b, 8'h1f, 8'h33, 8'h24};
-		data_nonce <= {8'hfd, 8'hed, 8'h87, 8'h3c};
+		data_entry_12   <= {8'h24, 8'h33,  8'h1f, 8'h6b,8'h6c, 8'h9e, 8'hca,8'h40,8'h2f,8'h9f,8'h7d,8'h39};
+		data_nonce <= {8'h3c, 8'h87, 8'hed, 8'hfd};
+		//data_entry_12 <= {8'h39, 8'h7d, 8'h9f,8'h2f, 8'h40, 8'hca,  8'h9e, 8'h6c, 8'h6b,8'h1f,  8'h33,8'h24};
+		//data_nonce <= {8'hfd, 8'hed, 8'h87, 8'h3c};
 		/*
 		data_entry_12[0] <=8'h39;
 		data_entry_12[1] <=8'h7d;
@@ -63,8 +66,6 @@ initial begin
 		*/
 		data_target <= 8'hff;
 		@(posedge clk);
-		
-		
 		@(posedge clk);
 		@(posedge clk);
 		@(posedge clk);

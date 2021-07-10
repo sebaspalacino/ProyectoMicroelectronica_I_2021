@@ -6,11 +6,12 @@
 module system_tb;
 
 wire clk,reset, selector;
-wire [7:0] [11:0] w_data_entry_12 ;
-wire [7:0] [3:0] w_data_nonce ;
+wire [11:0] [7:0] w_data_entry_12 ;
+wire [3:0] [7:0] w_data_nonce ;
 wire [7:0] w_target;
-wire [7:0] [2:0] w_data_out_cond ; 
-wire [7:0] [15:0] w_block ;
+wire [2:0] [7:0] w_data_out_cond ; 
+wire [15:0] [7:0] w_block ;
+wire HASH_done;
 
 system	system(.clk	(clk),
 		.reset	(reset),
@@ -18,6 +19,7 @@ system	system(.clk	(clk),
 		.data_entry_12	(w_data_entry_12),
 		.data_nonce (w_data_nonce),
 		.data_target (w_target),
+		.hash_done	(HASH_done),
 		.data_out_cond (w_data_out_cond));
 
 
@@ -34,6 +36,7 @@ micro_hash hash(.clk	(clk),
 		 .reset (reset),
 		 .block (w_block),
 		 .target (w_target),
+		 .hash_done	(HASH_done),
 		 .H_out (w_data_out_cond));
 		 
 endmodule		 

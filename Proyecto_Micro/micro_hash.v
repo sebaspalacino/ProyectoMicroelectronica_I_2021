@@ -65,18 +65,20 @@ always@(posedge clk) begin //Cambiar asignaciones
 		
 		
 		if(i<=15)begin
-			W[i] <= block[i];	
+			W[i] <= block[i];
+				i <= i+1;
 		end 
 		
 		else if(i<=31) begin
 			W[i] = W[i-3] | W[i-9] ^ W[i-14];
+			i <= i+1;
 		end
 		
 		else if(i>31) begin
 			i<=0;
 			j<=1; //Signal para decirnos que la iteracion se completo
 		end
-		i <= i+1;//Actualizamos contador
+		//i <= i+1;//Actualizamos contador
 	//Inicializamos 3 variables
 		
 	//Iteramos 32 veces
@@ -88,13 +90,13 @@ always@(posedge clk) begin //Cambiar asignaciones
 			x <=0;
 			t <=0;
 		end else begin
-			if(t<=16)begin
+			if(0<=t<=16)begin
 				k <= 8'h99;
 				x <= a^b;
 			end 
-			else if(t<=31)begin
-				k = 8'ha1;
-				x = a | b;
+			else if(17<=t<=31)begin
+				k <= 8'ha1;
+				x <= a | b;
 			end
 			else if(t>31) begin
 				t<=0;

@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from scipy.stats.kde import gaussian_kde
 import cv2
 
+
 X = []
 Y = []
 
@@ -35,27 +36,61 @@ for line in f:
         else:
             Z = 0
     else:
-        print('None')
+        print('None') #Si no encuentra match en el archivo, imprime None
 
 
-print(X2)
-# if  (m.group(1)!= 'FILL'):
-# scontinue
-# print(m.group(1))
 
-# print(X_1)
 
-# print(X)
+#Pasamos los arrays de bytes a que sean de enteros
+for i in range(0,len(X)):
+	X[i] = int(X[i])
 
-# print(Y_1)
+for j in range(0, len(Y)):
+	Y[j] = int(Y[j]) 
+	
+for s in range(0,len(X2)):
+	X2[s] = int(X2[s])
 
-# print(Y)
-# else:
-# print(m.group(1))
+for t in range(0, len(Y2)):
+	Y2[t] = int(Y2[t])	
+	   
 
-start_point = [X, Y]
-end_point = [X2, Y2]
-rectangulo = cv2.rectangle(start_point, end_point)
+
+#Ahora sucede que X2 y Y2 no son del mismo tamaño que X y Y, entonces se hace dos arrays de 0s para rellenar la longitud y que sean igual
+
+print('Prueba')    
+Fill_X = np.zeros(799) #799 valores es lo que le falta a X2 para ser igual a X
+print(len(Fill_X))
+Fill_Y = np.zeros(3284)    #3284 valores es lo que le falta a Y2 para ser igual a Y
+print(len(Fill_Y))
+print(min(Fill_X))
+print(max(Fill_X))
+print(min(Fill_Y))
+print(max(Fill_Y))    
+
+X2f = X2
+Y2f = Y2
+X2f.extend(Fill_X) #Unimos los vectores para tener la misma longitud
+Y2f.extend(Fill_Y)
+
+print('Valores de longitud')
+print(len(X2f))
+print(len(Y2f))
+
+
+#Con la funcion quiver, creamos los vectores 
+plt.quiver(X, Y, X2, Y2, color='royalblue', units='xy', scale=6)
+
+
+plt.title('Metal Map 4')
+plt.xlim(0, 70000)
+plt.ylim(0, 70000)
+plt.grid()
+plt.show()
+
+
+
+
 
 
 

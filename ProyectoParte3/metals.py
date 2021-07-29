@@ -12,7 +12,7 @@ Y = []
 
 X2 = []
 Y2 = []
-f = open("system_area.def", "r")
+f = open("system_performance.def", "r")
 
 for line in f:
     # group(0) no es, group(1) es el nombre del metal, group(2) es la coordenada en X1, group(3) es la coordenada en Y1
@@ -54,14 +54,17 @@ for s in range(0,len(X2)):
 for t in range(0, len(Y2)):
 	Y2[t] = int(Y2[t])	
 	   
-
+print(len(X))
+print(len(Y))
+print(len(X2))
+print(len(Y2))
 
 #Ahora sucede que X2 y Y2 no son del mismo tamaño que X y Y, entonces se hace dos arrays de 0s para rellenar la longitud y que sean igual
 
 print('Prueba')    
-Fill_X = np.zeros(799) #799 valores es lo que le falta a X2 para ser igual a X
+Fill_X = np.zeros(807) #799 valores es lo que le falta a X2 para ser igual a X cuando se tiene system_area.def. Para system_performance usar 807
 print(len(Fill_X))
-Fill_Y = np.zeros(3284)    #3284 valores es lo que le falta a Y2 para ser igual a Y
+Fill_Y = np.zeros(3832)    #3284 valores es lo que le falta a Y2 para ser igual a Y cuando se tiene system_area.def. Para system_performance usar 3832
 print(len(Fill_Y))
 print(min(Fill_X))
 print(max(Fill_X))

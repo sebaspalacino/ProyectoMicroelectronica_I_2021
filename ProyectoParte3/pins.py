@@ -8,7 +8,7 @@ from scipy.stats.kde import gaussian_kde
 X = []
 Y = []
 
-f = open("system_area.def", "r")
+f = open("system_performance.def", "r")
 
 for line in f:
     m = re.search(r'\S (\S*) \S* (\d*) ([+-]\d*) .*', line)
